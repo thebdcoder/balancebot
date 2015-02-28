@@ -59,6 +59,7 @@ def dist(a, b):
 def get_y_rotation(x,y,z):
     radians = math.atan2(x, dist(y,z))
     return -math.degrees(radians)
+<<<<<<< HEAD
 
 def get_x_rotation(x,y,z):
     radians = math.atan2(y, dist(x,z))
@@ -67,6 +68,16 @@ def get_x_rotation(x,y,z):
 p=PID(1.0,-0.04,0.0)
 p.setPoint(0.0)
 
+=======
+
+def get_x_rotation(x,y,z):
+    radians = math.atan2(y, dist(x,z))
+    return math.degrees(radians)
+
+p=PID(1.0,-0.04,0.0)
+p.setPoint(0.0)
+
+>>>>>>> 01c76a9d8aa82cbdef8ddcd37d6c48a8aa3fdf8e
 for i in range(0, int(300.0 / time_diff)):
     time.sleep(time_diff - 0.005) 
     
@@ -76,6 +87,7 @@ for i in range(0, int(300.0 / time_diff)):
     rate_gyroX = sensor.read_scaled_gyro_x()
     rate_gyroY = sensor.read_scaled_gyro_y()
     rate_gyroZ = sensor.read_scaled_gyro_z()
+<<<<<<< HEAD
 	
     # The angle of the Gyroscope
     gyroAngleX += rate_gyroX * time_diff 
@@ -107,5 +119,39 @@ for i in range(0, int(300.0 / time_diff)):
         MOTOR.forward(pid)
     else:
         MOTOR.backward( (pid*-1) )
+=======
+	
+	# The angle of the Gyroscope
+    gyroAngleX += rate_gyroX * time_diff 
+    gyroAngleY += rate_gyroY * time_diff 
+    gyroAngleZ += rate_gyroZ * time_diff 
+	
+	# Accelorometer Value
+    raw_accX = sensor.read_raw_accel_x()
+    raw_accY = sensor.read_raw_accel_y()
+    raw_accZ = sensor.read_raw_accel_z()
+    
+    rate_accX = sensor.read_scaled_accel_x()
+    rate_accY = sensor.read_scaled_accel_y()
+    rate_accZ = sensor.read_scaled_accel_z()
+
+    accAngX = ( math.atan2(rate_accX, rate_accY) + M_PI ) * RAD_TO_DEG
+    
+    accAngX1 = get_x_rotation(rate_accX, rate_accY, rate_accX)
+    
+    CFangleX = K * ( CFangleX + rate_gyroX * time_diff) + (1 - K) * accAngX
+    
+    CFangleX1 = ( K * ( CFangleX1 + rate_gyroX * time_diff) + (1 - K) * accAngX1 )
+	
+    pid = p.update(CFangleX1)
+    
+    if(-10 < pid < 10):
+        MOTOR.forward(0)
+    else:
+        if(pid > 10):
+            MOTOR.backward(pid)
+        else:
+            MOTOR.forward(pid*-1)
+>>>>>>> 01c76a9d8aa82cbdef8ddcd37d6c48a8aa3fdf8e
     
     print "{0:.2f} {1:.2f} {2:.2f} {3:.2f} | {4:.2f} {5:.2f} | {6:.2f}".format( gyroAngleX, gyroAngleY , accAngX, CFangleX, accAngX1, CFangleX1, pid)
