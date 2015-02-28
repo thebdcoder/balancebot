@@ -19,38 +19,27 @@ m2 = GPIO.PWM(20, mhz)
 m3 = GPIO.PWM(16, mhz)
 m4 = GPIO.PWM(12, mhz)
 
-<<<<<<< HEAD
 def backward(speed):
     if(speed > 100):
         speed = 100
-=======
-def forward(speed):
->>>>>>> 01c76a9d8aa82cbdef8ddcd37d6c48a8aa3fdf8e
     m1.start(speed) 
     GPIO.output(20, False)
     m3.start(speed)
     GPIO.output(12, False)
     
-<<<<<<< HEAD
 def forward(speed):
     if(speed > 100):
         speed = 100
-=======
-def backward(speed):
->>>>>>> 01c76a9d8aa82cbdef8ddcd37d6c48a8aa3fdf8e
     m2.start(speed) 
     GPIO.output(21, False)
     m4.start(speed)
     GPIO.output(16, False)
-<<<<<<< HEAD
 
 def stop():
     m1.stop()
     m2.stop()
     m3.stop()
     m4.stop()
-=======
->>>>>>> 01c76a9d8aa82cbdef8ddcd37d6c48a8aa3fdf8e
     
 def finish():
 	print('Finishing up!')
