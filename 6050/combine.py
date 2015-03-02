@@ -100,11 +100,15 @@ for i in range(0, int(300.0 / time_diff)):
     CFangleX1 = ( K * ( CFangleX1 + rate_gyroX * time_diff) + (1 - K) * accAngX1 )
     
     # Followed the Second example because it gives resonable pid reading
-    pid = p.update(CFangleX1)
-    
+    pid = int(p.update(CFangleX1))
+    speed = pid * 30
+
     if(pid > 0):
-        MOTOR.forward(pid)
+        MOTOR.forward(speed)
+    elif(pid < 0):
+        MOTOR.backward( abs(speed) )
     else:
-        MOTOR.backward( (pid*-1) )
-    
-    print "{0:.2f} {1:.2f} {2:.2f} {3:.2f} | {4:.2f} {5:.2f} | {6:.2f}".format( gyroAngleX, gyroAngleY , accAngX, CFangleX, accAngX1, CFangleX1, pid)
+	MOTOR.stop()
+
+    print "{0:.2f} {1:.2f} {2:.2f} {3:.2f} | {4:.2f} {5:.2f} | {6:.2f} | {7:.2f} ".format( gyroAngleX, gyroAngleY , accAngX, CFangleX, accAngX1, CFangleX1, pid, speed)
+    #print "{0:.2f} {1:.2f}".format( sensor.read_pitch(), sensor.read_roll())

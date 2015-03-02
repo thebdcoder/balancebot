@@ -198,7 +198,7 @@ class MPU6050(object):
 
     def read_roll(self):
         '''Return the current roll value in radians'''
-        self.roll
+        return self.roll
         
     def read_all(self):
         '''Return pitch and roll in radians and the scaled x, y & z values from the gyroscope and accelerometer'''
